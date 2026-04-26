@@ -91,7 +91,7 @@ Every authenticated domain user has permission to create DNS A records in AD-int
 
 ### Exploitation
 
-In the context of this scenario, **CVE-2025-33073** solves an **ESC8** blocker. When the **CA** and **DC** share the same host, **NTLM** relay to the **HTTP** enrollment endpoint is normally impossible due to loopback protection. But **CVE-2026-33073** makes it possible by adding a **DNS** record that looks like a different machine but actually resolves to the **DC's** hostname itself tricking the **DC** to authenticate against itself.
+In the context of this scenario, **CVE-2025-33073** solves an **ESC8** blocker. When the **CA** and **DC** share the same host, **NTLM** relay to the **HTTP** enrollment endpoint is normally impossible due to loopback protection. But **CVE-2025-33073** makes it possible by adding a **DNS** record that looks like a different machine but actually resolves to the **DC's** hostname itself tricking the **DC** to authenticate against itself.
 
 First of all we will add a malicious **DNS record** to exploit the **CVE** and make the **DC** coerce to itself.
 
