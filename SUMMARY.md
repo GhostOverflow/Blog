@@ -11,3 +11,7 @@
 
 * [AWS](cloud/aws/README.md)
   * [Account ID Enumeration via S3](cloud/aws/account-id-enumeration-via-s3.md)
+
+## CVE BreakDown
+
+* [NGINX Rift (CVE-2026-42945)](cve-breakdown/nginx-rift-cve-2026-42945.md)
