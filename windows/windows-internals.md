@@ -47,7 +47,7 @@ User mode processes at the top. When a process needs the OS to do something it c
 
 On the kernel side that lands in the NT executive inside `ntoskrnl.exe`. Below the executive is the NT kernel itself handling scheduling and interrupts. Alongside everything are kernel-mode drivers at the same privilege level as the kernel. At the hardware boundary is HAL. And on modern Windows 10/11 systems, underneath all of it, is the Hyper-V hypervisor.
 
-<figure><img src="../.gitbook/assets/Operating_System_Architectural_Stack.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
