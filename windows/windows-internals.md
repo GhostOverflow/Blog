@@ -1,7 +1,8 @@
 ---
 description: >-
-  Moving past automated tooling: a practical guide to Windows architecture, the
-  limits of token privilege, and the mechanics of the modern evasion arms race.
+  Moving past automated tooling: a practical blog series to Windows
+  architecture, the limits of token privilege, and the mechanics of the modern
+  evasion arms race.
 icon: windows
 cover: >-
   https://images.unsplash.com/photo-1660032356057-efd3e1eb045c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHwyfHx3aW5kb3dzJTIwaW50ZXJuYWxzfGVufDB8fHx8MTc4MTc3MDA0MXww&ixlib=rb-4.1.0&q=85
@@ -68,6 +69,8 @@ SYSTEM is the highest token-based privilege. But the user/kernel boundary doesn'
 
 That's the thing internals teaches you that tooling doesn't. You can have every token privilege in the book and still be completely unable to touch certain processes because the boundary stopping you isn't the one you're thinking about. Knowing which boundary you're actually hitting stops you wasting time on approaches that can't work by design.
 
+{% embed url="https://learn.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/user-mode-and-kernel-mode" %}
+
 ### The Components
 
 #### Processes and Threads
@@ -77,6 +80,8 @@ A process is a resource container, not the program. Private virtual address spac
 Threads are what actually runs. Each has its own stack, its own register state, its own priority. Context switch happens, scheduler saves the outgoing thread's register state, restores the incoming thread's, execution continues exactly where it left off.
 
 Process injection, remote thread creation, thread hijacking, all of it works directly against these primitives. Understanding what a process actually is makes the mechanics obvious instead of magic.
+
+{% embed url="https://learn.microsoft.com/en-us/windows/win32/procthread/processes-and-threads" %}
 
 #### The NT Executive
 
@@ -108,6 +113,8 @@ WinRT is Microsoft's cross-platform API for modern Windows apps. Not particularl
 
 Win32 is the layer that matters. And Win32 eventually flows through ntdll.
 
+{% embed url="https://library.mosse-institute.com/articles/2022/12/windows-internals-subsystems.html" %}
+
 #### The Design Decisions That Still Matter
 
 NT 3.x had the GUI subsystem running in user mode. NT 4.0 moved the window manager and GDI into kernel mode as win32k.sys, purely for performance reasons. That one decision handed the kernel a GUI attack surface it never needed to have.
@@ -123,6 +130,8 @@ Call `VirtualAlloc` from `kernel32.dll`. kernel32 validates parameters then call
 <figure><img src="../.gitbook/assets/Syscall_Path__User_to_Kernel (1).png" alt=""><figcaption></figcaption></figure>
 
 > Not every API needs this trip. String operations and math run entirely in your process without touching the kernel. Only operations that require privilege, memory allocation, file I/O, process creation, handle operations, go through the boundary.
+
+{% embed url="https://www.youtube.com/watch?v=AHeCSny_b_g" %}
 
 ### What This Means Offensively
 
