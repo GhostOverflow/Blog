@@ -4,7 +4,8 @@
 
 ## Windows
 
-* [Windows Internals](windows/windows-internals.md)
+* [Windows Internals](windows/windows-internals/README.md)
+  * [Part 1: Process Internals](windows/windows-internals/part-1-process-internals.md)
 
 ## Active Directory
 

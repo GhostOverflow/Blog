@@ -1,8 +1,7 @@
 ---
 description: >-
-  Moving past automated tooling: a practical blog series to Windows
-  architecture, the limits of token privilege, and the mechanics of the modern
-  evasion arms race.
+  A practical blog series to Windows architecture, the limits of token
+  privilege, and the mechanics of the modern evasion arms race.
 icon: windows
 cover: >-
   https://images.unsplash.com/photo-1660032356057-efd3e1eb045c?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHwyfHx3aW5kb3dzJTIwaW50ZXJuYWxzfGVufDB8fHx8MTc4MTc3MDA0MXww&ixlib=rb-4.1.0&q=85
@@ -37,7 +36,7 @@ They ran parallel for most of the decade. XP in 2001 merged them. Every Windows 
 
 That lineage matters because the architecture you're attacking today has a direct line back to 1993. Core design decisions from that kernel are still in Windows 11. Which is exactly why code from the leaked Windows 2000 source tree, compiled in 1999, had a direct line to CVE-2025-24993, an NTFS heap overflow that CISA added to the Known Exploited Vulnerabilities catalog in March 2025. Twenty-five years. Same code. Active exploitation.
 
-<figure><img src="../.gitbook/assets/Operating_System_Kernel_Evolution.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Operating_System_Kernel_Evolution.png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -47,7 +46,7 @@ User mode processes at the top. When a process needs the OS to do something it c
 
 On the kernel side that lands in the NT executive inside `ntoskrnl.exe`. Below the executive is the NT kernel itself handling scheduling and interrupts. Alongside everything are kernel-mode drivers at the same privilege level as the kernel. At the hardware boundary is HAL. And on modern Windows 10/11 systems, underneath all of it, is the Hyper-V hypervisor.
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 ***
 
@@ -59,7 +58,7 @@ User mode is where your processes live. Private virtual address space, limited p
 
 Kernel mode has full access to everything. Physical memory, hardware, every running process. Crash here and the whole system goes down.
 
-<figure><img src="../.gitbook/assets/Operating_System_Privilege_Architecture_Diagram.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Operating_System_Privilege_Architecture_Diagram.png" alt=""><figcaption></figcaption></figure>
 
 > The user/kernel diagram above shows the boundary. Notice there's no SYSTEM label anywhere on it. That's the point.
 
@@ -127,7 +126,7 @@ The backwards compatibility requirement is the other side of this. APIs introduc
 
 Call `VirtualAlloc` from `kernel32.dll`. kernel32 validates parameters then calls `NtAllocateVirtualMemory` in ntdll. ntdll loads the syscall number into RAX, fires the syscall instruction. Execution transitions to kernel mode. Kernel reads the number from RAX, looks it up in the SSDT, calls the matching kernel function. Function does the work, returns.
 
-<figure><img src="../.gitbook/assets/Syscall_Path__User_to_Kernel (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Syscall_Path__User_to_Kernel (1).png" alt=""><figcaption></figcaption></figure>
 
 > Not every API needs this trip. String operations and math run entirely in your process without touching the kernel. Only operations that require privilege, memory allocation, file I/O, process creation, handle operations, go through the boundary.
 
@@ -137,7 +136,7 @@ Call `VirtualAlloc` from `kernel32.dll`. kernel32 validates parameters then call
 
 Most user-mode EDR hooks sit in ntdll. They overwrite the first bytes of functions like `NtAllocateVirtualMemory` with a JMP that redirects into the EDR's monitoring code before the syscall fires. Direct syscalls bypass this completely. Skip ntdll, load the syscall number yourself, fire the instruction. The hook never runs
 
-<figure><img src="../.gitbook/assets/Syscall_Interception_Execution_Flow_Comparison.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Syscall_Interception_Execution_Flow_Comparison.png" alt=""><figcaption></figcaption></figure>
 
 But that's not enough anymore and treating it as a complete solution is a mistake. Kernel callbacks like `PsSetCreateProcessNotifyRoutine` fire regardless of how the syscall was made. The EDR doesn't need to see the ntdll call because the kernel tells it directly. Call stack validation adds another layer, a syscall from heap-allocated unbacked memory is a strong signal even if ntdll was never touched.
 
@@ -147,7 +146,7 @@ So you need kernel access. That's where BYOVD comes in. You can't load an unsign
 
 A single BYOVD campaign targeting the TrueSight driver deployed over 2,500 driver variants between mid-2024 and early 2025. By February 2026 Reynolds ransomware was embedding the vulnerable driver directly inside the ransomware payload, no separate deployment step needed.
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 Microsoft's answer to kernel-level attackers was VBS. Put Credential Guard and HVCI in VTL1, a separate execution environment the VTL0 kernel itself cannot inspect. Even a full kernel exploit in VTL0 can't read credential material stored in VTL1. Even BYOVD kernel execution can't load unsigned drivers if HVCI enforces from VTL1.
 
