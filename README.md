@@ -1,6 +1,8 @@
 ---
-cover: .gitbook/assets/ChatGPT Image Jul 8, 2026, 02_41_49 PM.png
-coverY: -7.445556946182729
+cover:
+  light: .gitbook/assets/ChatGPT Image Jul 8, 2026, 02_41_49 PM.png
+  dark: .gitbook/assets/ChatGPT Image Jul 8, 2026, 02_57_03 PM.png
+coverY: 0
 ---
 
 # Home
