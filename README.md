@@ -1,6 +1,6 @@
 ---
 cover: .gitbook/assets/ChatGPT Image Jul 8, 2026, 02_41_49 PM.png
-coverY: 3.7227784730913642
+coverY: -7.445556946182729
 ---
 
 # Home
