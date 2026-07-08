@@ -1,9 +1,8 @@
 ---
 description: A deep dive into Windows Process architecture, its Lifecycle and abuse
 icon: gears
-cover: >-
-  https://images.unsplash.com/photo-1504639725590-34d0984388bd?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHw4fHxyZXNvdXJjZXN8ZW58MHx8fHwxNzgzMjUyODkxfDA&ixlib=rb-4.1.0&q=85
-coverY: 0
+cover: ../../.gitbook/assets/Gemini_Generated_Image_ilto6zilto6zilto.png
+coverY: 54.46182728410507
 ---
 
 # Part 1: Process Internals

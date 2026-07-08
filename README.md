@@ -1,3 +1,8 @@
+---
+cover: .gitbook/assets/ChatGPT Image Jul 8, 2026, 02_41_49 PM.png
+coverY: 3.7227784730913642
+---
+
 # Home
 
 I'm Waleed Hassan aka GhostOverflow, a penetration tester focused on web application and Active Directory and AI/ML security.
