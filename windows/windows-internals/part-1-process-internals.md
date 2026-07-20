@@ -2,8 +2,7 @@
 description: A deep dive into Windows Process architecture, its Lifecycle and abuse
 icon: gears
 cover: ../../.gitbook/assets/ChatGPT Image Jul 20, 2026, 10_35_32 PM.png
-coverY: 48.596996245306634
-coverHeight: 297
+coverY: 106.73784131572917
 layout:
   width: default
   cover:
