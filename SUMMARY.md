@@ -12,6 +12,11 @@
 * [ADCS](active-directory/adcs/README.md)
   * [ESC8 on a Shared CA](active-directory/adcs/esc8-on-a-shared-ca.md)
 
+## Writeups
+
+* [Linux](writeups/linux/README.md)
+  * [CobbleStone - HTB](writeups/linux/cobblestone-htb.md)
+
 ## Cloud
 
 * [AWS](cloud/aws/README.md)
